@@ -609,32 +609,129 @@
     </section>
 
         <!-------------------------- Contact Me -------------------------->
-
     <section class="contact-content" id="contact">
         <div class="container">
             <div class="contact-title">
                 <h4>Contact Me</h4>
-                <p><a href="https://www.facebook.com/share/15aZisVGN6/?mibextid=wwXlfr" class="mediasocial">Facebook</a><br><a href="https://www.facebook.com/share/15aZisVGN6/?mibextid=wwXIfr" class="mediasocial">Twitter</a><br><a href="https://www.facebook.com/share/15aZisVGN6/?mibextid=wwXlfr" class="mediasocial">Instagram</a></p>
-                <p>Get In Touch</p>
+                <p>Let's build something amazing together</p>
             </div>
-            <div class="contact">
-                <form 
-                    action="https://formspree.io/f/xdadpakl"
-                    method="POST"
-                    name="submitToGoogleSheet"
-                >
-                    <input type="text" name="name" placeholder="Name" required>
-                    <input type="email" name="email" placeholder="Email" required>
-                    <input type="text" name="subject" placeholder="Subject">
-                    <textarea name="message" placeholder="Message" required></textarea>
-                    <input type="submit" value="Send Message" class="submit">
-                </form>
-                <span id="msg"></span>
+            
+            <div class="contact-wrapper">
+                <!-- Contact Form -->
+                <div class="contact-form-container">
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Name *</label>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                class="form-input" 
+                                placeholder="Your full name"
+                                required
+                            >
+                            <span class="form-error" id="name-error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email *</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                class="form-input" 
+                                placeholder="your.email@example.com"
+                                required
+                            >
+                            <span class="form-error" id="email-error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message *</label>
+                            <textarea 
+                                id="message" 
+                                name="message" 
+                                class="form-input form-textarea" 
+                                placeholder="Tell me about your project or just say hello..."
+                                rows="5"
+                                required
+                            ></textarea>
+                            <span class="form-error" id="message-error"></span>
+                        </div>
+                        
+                        <button type="submit" id="submit-btn" class="submit-btn">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i> Sending...
+                            </span>
+                        </button>
+                    </form>
+                    
+                    <!-- Status Message -->
+                    <div id="status-message" class="status-message"></div>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="contact-info-container">
+                    <h3 class="contact-info-title">Get In Touch</h3>
+                    <p class="contact-info-subtitle">Feel free to reach out through any of these channels</p>
+                    
+                    <div class="contact-info-items">
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-info-content">
+                                <h4>Email</h4>
+                                <a href="mailto:umair.anwari789@gmail.com">umair.anwari789@gmail.com</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <div class="contact-info-content">
+                                <h4>GitHub</h4>
+                                <a href="https://github.com/UM4iR-H3x" target="_blank">github.com/UM4iR-H3x</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon">
+                                <i class="fab fa-telegram"></i>
+                            </div>
+                            <div class="contact-info-content">
+                                <h4>Telegram</h4>
+                                <a href="https://t.me/umairanwari" target="_blank">@umairanwari</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-social">
+                        <p class="social-title">Connect with me</p>
+                        <div class="social-links">
+                            <a href="mailto:umair.anwari789@gmail.com" class="social-link" title="Email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            <a href="https://github.com/UM4iR-H3x" class="social-link" target="_blank" title="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/umairanwari/" class="social-link" target="_blank" title="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://leetcode.com/umairanwari/" class="social-link" target="_blank" title="LeetCode">
+                                <i class="fa fa-code"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
         
     <!-------------------------- JS -------------------------->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
@@ -644,7 +741,7 @@
     <!-------------------------- Footer section -------------------------->
    <footer class="footer">
     <small class="message">Thanks for visiting and happy coding!</small>
-    <small class="copyright">&copy; Copyright 2025. All rights reserved.</small>
+    <small class="copyright">&copy; Copyright 2026. All rights reserved.</small>
    </footer>
 
 </body>

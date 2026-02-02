@@ -189,49 +189,142 @@ $(document).ready(function() {
     document.head.appendChild(style);
     */
 
-  // Enhanced contact form handling with Formspree
-  const form = document.forms['submitToGoogleSheet'];
-  const msg = document.getElementById("msg");
-
-  form.addEventListener('submit', e => {
+  // Enhanced contact form handling with EmailJS
+  (function() {
+    // Initialize EmailJS with your public key
+    emailjs.init("CGr65u1Wf3sXn7DTp");
+    
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const statusMessage = document.getElementById('status-message');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnLoading = submitBtn.querySelector('.btn-loading');
+    
+    // Form validation
+    function validateForm() {
+      const name = document.getElementById('name');
+      const email = document.getElementById('email');
+      const message = document.getElementById('message');
+      let isValid = true;
+      
+      // Reset error messages
+      document.querySelectorAll('.form-error').forEach(error => {
+        error.textContent = '';
+      });
+      
+      // Validate name
+      if (name.value.trim().length < 2) {
+        document.getElementById('name-error').textContent = 'Name must be at least 2 characters';
+        isValid = false;
+      }
+      
+      // Validate email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email.value)) {
+        document.getElementById('email-error').textContent = 'Please enter a valid email address';
+        isValid = false;
+      }
+      
+      // Validate message
+      if (message.value.trim().length < 10) {
+        document.getElementById('message-error').textContent = 'Message must be at least 10 characters';
+        isValid = false;
+      }
+      
+      return isValid;
+    }
+    
+    // Show status message
+    function showStatus(message, type) {
+      statusMessage.textContent = message;
+      statusMessage.className = `status-message ${type}`;
+      statusMessage.style.display = 'block';
+      
+      // Auto-hide after 5 seconds for success messages
+      if (type === 'success') {
+        setTimeout(() => {
+          statusMessage.style.display = 'none';
+        }, 5000);
+      }
+    }
+    
+    // Handle form submission
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      // Add loading state
-      const submitBtn = form.querySelector('.submit');
-      const originalText = submitBtn.value;
-      submitBtn.value = 'Sending...';
-      submitBtn.disabled = true;
+      // Validate form
+      if (!validateForm()) {
+        return;
+      }
       
-      // Submit to Formspree
-      fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: {
-              'Accept': 'application/json'
+      // Show loading state
+      submitBtn.disabled = true;
+      btnText.style.display = 'none';
+      btnLoading.style.display = 'inline-block';
+      showStatus('Sending...', 'loading');
+      
+      try {
+        // Send email using EmailJS
+        const result = await emailjs.sendForm(
+          'service_vov0zgn',    // SERVICE_ID
+          'template_musk8vb',    // TEMPLATE_ID
+          form
+        );
+        
+        if (result.status === 200) {
+          showStatus('Message sent successfully ✅', 'success');
+          form.reset();
+        } else {
+          throw new Error('Failed to send message');
+        }
+      } catch (error) {
+        console.error('EmailJS error:', error);
+        showStatus('Failed to send message ❌ Please try again.', 'error');
+      } finally {
+        // Reset button state
+        submitBtn.disabled = false;
+        btnText.style.display = 'inline-block';
+        btnLoading.style.display = 'none';
+        
+        // Clear loading message after 2 seconds
+        setTimeout(() => {
+          if (statusMessage.textContent === 'Sending...') {
+            statusMessage.style.display = 'none';
           }
-      })
-      .then(response => {
-          if (response.ok) {
-              msg.innerHTML = "✨ Message sent successfully! I'll get back to you soon.";
-              msg.classList.add('show');
-              form.reset();
-          } else {
-              throw new Error('Form submission failed');
-          }
-      })
-      .catch(error => {
-          msg.innerHTML = "❌ Oops! Something went wrong. Please try again.";
-          msg.classList.add('show');
-      })
-      .finally(() => {
-          submitBtn.value = originalText;
-          submitBtn.disabled = false;
-          setTimeout(function () {
-              msg.innerHTML = "";
-              msg.classList.remove('show');
-          }, 5000);
-      });
-  });
+        }, 2000);
+      }
+    });
+    
+    // Real-time validation
+    document.getElementById('name').addEventListener('blur', function() {
+      const error = document.getElementById('name-error');
+      if (this.value.trim().length < 2) {
+        error.textContent = 'Name must be at least 2 characters';
+      } else {
+        error.textContent = '';
+      }
+    });
+    
+    document.getElementById('email').addEventListener('blur', function() {
+      const error = document.getElementById('email-error');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.value)) {
+        error.textContent = 'Please enter a valid email address';
+      } else {
+        error.textContent = '';
+      }
+    });
+    
+    document.getElementById('message').addEventListener('blur', function() {
+      const error = document.getElementById('message-error');
+      if (this.value.trim().length < 10) {
+        error.textContent = 'Message must be at least 10 characters';
+      } else {
+        error.textContent = '';
+      }
+    });
+    
+  })();
     
   });
   
