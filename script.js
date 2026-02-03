@@ -121,7 +121,7 @@ $(document).ready(function() {
   // Enhanced typing effect for hero section
   const typedTextSpan = document.querySelector(".profile-text h1");
   if (typedTextSpan) {
-    const textArray = ["Umair Anwari", "Software Engineer", "Web Developer", "Security Researcher"];
+    const textArray = ["Umair Anwari", "Software Engineer", "Security Researcher"];
     let textArrayIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
